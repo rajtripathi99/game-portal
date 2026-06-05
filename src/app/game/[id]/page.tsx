@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, use } from "react";
+import { useEffect, useState, useCallback, useRef, use } from "react";
 import { Game } from "@/types/game";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +16,32 @@ export default function GamePage({ params }: GamePageProps) {
   const [relatedGames, setRelatedGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = useCallback(() => {
+    if (!gameContainerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      gameContainerRef.current.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch((err) => {
+        console.error("Fullscreen error:", err);
+      });
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullscreen(false);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    return () => document.removeEventListener("fullscreenchange", handleFsChange);
+  }, []);
 
   const fetchGame = useCallback(async () => {
     setLoading(true);
@@ -132,26 +158,67 @@ export default function GamePage({ params }: GamePageProps) {
 
         {/* Game Player / Thumbnail */}
         {isPlaying ? (
-          <div className="relative w-full rounded-2xl overflow-hidden bg-black border border-white/5 mb-8 animate-fade-in-up">
-            {/* Fullscreen toolbar */}
-            <div className="flex items-center justify-between px-4 py-2 bg-[#0d0d0d] border-b border-white/5">
+          <div
+            ref={gameContainerRef}
+            className={`relative w-full overflow-hidden bg-black mb-8 animate-fade-in-up ${
+              isFullscreen ? "rounded-none" : "rounded-2xl border border-white/5"
+            }`}
+          >
+            {/* Game toolbar */}
+            <div className={`flex items-center justify-between px-4 py-2 bg-[#0d0d0d] border-b border-white/5 ${
+              isFullscreen ? "absolute top-0 left-0 right-0 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300" : ""
+            }`}>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-orange animate-pulse" />
                 <span className="text-sm text-secondary-text font-medium">
                   Now Playing: {game.title}
                 </span>
               </div>
-              <button
-                onClick={() => setIsPlaying(false)}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-secondary-text hover:text-white hover:bg-white/10 transition-all"
-                id="close-game-btn"
-              >
-                ✕ Close
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleFullscreen}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-secondary-text hover:text-white hover:bg-white/10 transition-all inline-flex items-center gap-1.5"
+                  id="fullscreen-btn"
+                >
+                  {isFullscreen ? (
+                    <>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="4 14 4 20 10 20" />
+                        <polyline points="20 10 20 4 14 4" />
+                        <line x1="14" y1="10" x2="21" y2="3" />
+                        <line x1="3" y1="21" x2="10" y2="14" />
+                      </svg>
+                      Exit Fullscreen
+                    </>
+                  ) : (
+                    <>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 3 21 3 21 9" />
+                        <polyline points="9 21 3 21 3 15" />
+                        <line x1="21" y1="3" x2="14" y2="10" />
+                        <line x1="3" y1="21" x2="10" y2="14" />
+                      </svg>
+                      Fullscreen
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    if (document.fullscreenElement) {
+                      document.exitFullscreen();
+                    }
+                    setIsPlaying(false);
+                  }}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-secondary-text hover:text-white hover:bg-red-500/20 hover:text-red-400 transition-all"
+                  id="close-game-btn"
+                >
+                  ✕ Close
+                </button>
+              </div>
             </div>
             <div
-              className="w-full"
-              style={{ aspectRatio: `${game.width}/${game.height}` }}
+              className={`w-full ${isFullscreen ? "h-full" : ""}`}
+              style={isFullscreen ? {} : { aspectRatio: `${game.width}/${game.height}` }}
             >
               <iframe
                 src={game.url}
