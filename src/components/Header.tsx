@@ -30,10 +30,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
         isScrolled
-          ? "glass-effect shadow-lg shadow-black/20"
-          : "bg-transparent"
+          ? "bg-[#0d0d0d]/80 backdrop-blur-xl border-white/5 shadow-lg shadow-black/20"
+          : "bg-transparent border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
