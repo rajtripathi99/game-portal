@@ -32,7 +32,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
         isScrolled
-          ? "bg-[#0d0d0d]/80 backdrop-blur-xl border-white/5 shadow-lg shadow-black/20"
+          ? "bg-[#1a2234]/80 backdrop-blur-xl border-white/5 shadow-lg shadow-black/20"
           : "bg-transparent border-transparent"
       }`}
     >
@@ -44,7 +44,7 @@ export default function Header() {
             className="flex items-center gap-2 group shrink-0"
             id="header-logo"
           >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange to-[#e85d00] flex items-center justify-center shadow-lg shadow-orange/20 group-hover:shadow-orange/40 transition-shadow duration-300">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-accent to-[#0ea5e9] flex items-center justify-center shadow-lg shadow-accent/20 group-hover:shadow-accent/40 transition-shadow duration-300">
               <svg
                 width="20"
                 height="20"
@@ -60,7 +60,7 @@ export default function Header() {
             </div>
             <span className="text-xl font-extrabold tracking-tight">
               <span className="text-gradient">Game</span>
-              <span className="text-white">Hub</span>
+              <span className="text-white">Portal</span>
             </span>
           </Link>
 

@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GameHub — Play Free Online Games",
+  title: "GamePortal — Play Free Online Games",
   description:
     "Play thousands of free online games instantly in your browser. Action, puzzle, racing, shooting and more — no downloads required.",
   keywords: "free games, online games, browser games, HTML5 games, play games",

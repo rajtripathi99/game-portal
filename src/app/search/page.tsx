@@ -119,7 +119,7 @@ function SearchContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted mb-6">
-          <Link href="/" className="hover:text-orange transition-colors">
+          <Link href="/" className="hover:text-accent transition-colors">
             Home
           </Link>
           <span>/</span>
@@ -149,7 +149,7 @@ function SearchContent() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
                   activeCategory === cat
-                    ? "bg-orange text-white shadow-lg shadow-orange/20"
+                    ? "bg-accent text-white shadow-lg shadow-accent/20"
                     : "bg-surface text-secondary-text hover:text-white hover:bg-white/10 border border-white/5"
                 }`}
                 id={`filter-${cat.toLowerCase()}`}
@@ -165,7 +165,7 @@ function SearchContent() {
           <div className="flex flex-col items-center justify-center py-24">
             <div className="relative w-14 h-14 mb-4">
               <div className="absolute inset-0 rounded-full border-3 border-white/5" />
-              <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-orange animate-spin" />
+              <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-accent animate-spin" />
             </div>
             <p className="text-secondary-text text-sm font-medium animate-pulse">
               Loading games...
@@ -227,7 +227,7 @@ export default function SearchPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="w-10 h-10 border-3 border-orange/30 border-t-orange rounded-full animate-spin" />
+          <div className="w-10 h-10 border-3 border-accent/30 border-t-accent rounded-full animate-spin" />
         </div>
       }
     >

@@ -103,7 +103,7 @@ export default function GamePage({ params }: GamePageProps) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-3 border-orange/30 border-t-orange rounded-full animate-spin" />
+          <div className="w-12 h-12 border-3 border-accent/30 border-t-accent rounded-full animate-spin" />
           <p className="text-secondary-text text-sm">Loading game...</p>
         </div>
       </div>
@@ -140,13 +140,13 @@ export default function GamePage({ params }: GamePageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted mb-6">
-          <Link href="/" className="hover:text-orange transition-colors">
+          <Link href="/" className="hover:text-accent transition-colors">
             Home
           </Link>
           <span>/</span>
           <Link
             href={`/search?category=${game.category}`}
-            className="hover:text-orange transition-colors"
+            className="hover:text-accent transition-colors"
           >
             {game.category}
           </Link>
@@ -165,11 +165,11 @@ export default function GamePage({ params }: GamePageProps) {
             }`}
           >
             {/* Game toolbar */}
-            <div className={`flex items-center justify-between px-4 py-2 bg-[#0d0d0d] border-b border-white/5 ${
+            <div className={`flex items-center justify-between px-4 py-2 bg-[#0f1724] border-b border-white/5 ${
               isFullscreen ? "absolute top-0 left-0 right-0 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300" : ""
             }`}>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-orange animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                 <span className="text-sm text-secondary-text font-medium">
                   Now Playing: {game.title}
                 </span>
@@ -254,7 +254,7 @@ export default function GamePage({ params }: GamePageProps) {
             {/* Play Button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <button
-                className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-orange flex items-center justify-center shadow-2xl shadow-orange/40 animate-pulse-glow group-hover:scale-110 transition-transform duration-300"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-accent flex items-center justify-center shadow-2xl shadow-accent/40 animate-pulse-glow group-hover:scale-110 transition-transform duration-300"
                 id="play-game-btn"
               >
                 <svg
@@ -289,7 +289,7 @@ export default function GamePage({ params }: GamePageProps) {
                     {game.title}
                   </h1>
                   <div className="flex items-center gap-3 flex-wrap">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-orange/15 text-orange border border-orange/20">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent/15 text-accent border border-accent/20">
                       {game.category}
                     </span>
                     <span className="text-muted text-xs">
@@ -387,7 +387,7 @@ export default function GamePage({ params }: GamePageProps) {
                 </div>
                 <div className="flex justify-between border-t border-white/5 pt-3">
                   <dt className="text-muted">Price</dt>
-                  <dd className="text-orange font-semibold">Free</dd>
+                  <dd className="text-accent font-semibold">Free</dd>
                 </div>
               </dl>
             </div>

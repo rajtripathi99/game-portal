@@ -58,13 +58,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden py-16 md:py-24" id="hero">
         {/* Background gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange/3 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/3 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange/10 border border-orange/20 mb-6">
-            <span className="w-2 h-2 rounded-full bg-orange animate-pulse" />
-            <span className="text-xs font-semibold text-orange-secondary uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <span className="text-xs font-semibold text-accent-secondary uppercase tracking-wider">
               Free to Play
             </span>
           </div>
@@ -156,11 +156,11 @@ export default function HomePage() {
             <Link
               key={cat}
               href={`/search?category=${cat}`}
-              className="group relative overflow-hidden rounded-xl bg-card border border-white/5 hover:border-orange/30 p-5 text-center transition-all duration-300 hover:shadow-lg hover:shadow-orange/10"
+              className="group relative overflow-hidden rounded-xl bg-card border border-white/5 hover:border-accent/30 p-5 text-center transition-all duration-300 hover:shadow-lg hover:shadow-accent/10"
               id={`category-${cat.toLowerCase()}`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-orange/0 to-orange/5 group-hover:from-orange/5 group-hover:to-orange/10 transition-all duration-300" />
-              <span className="relative text-sm font-semibold text-white group-hover:text-orange transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/5 group-hover:from-accent/5 group-hover:to-accent/10 transition-all duration-300" />
+              <span className="relative text-sm font-semibold text-white group-hover:text-accent transition-colors">
                 {cat}
               </span>
             </Link>

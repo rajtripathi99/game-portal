@@ -11,7 +11,7 @@ export default function GameCard({ game, index = 0 }: GameCardProps) {
   return (
     <Link
       href={`/game/${game.id}`}
-      className="game-card group block rounded-2xl overflow-hidden bg-card border border-white/5 hover:border-orange/20"
+      className="game-card group block rounded-2xl overflow-hidden bg-card border border-white/5 hover:border-accent/20"
       style={{ animationDelay: `${index * 50}ms` }}
       id={`game-card-${game.id}`}
     >
@@ -26,7 +26,7 @@ export default function GameCard({ game, index = 0 }: GameCardProps) {
         />
         {/* Play overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-          <div className="w-14 h-14 rounded-full bg-orange/90 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg shadow-orange/30">
+          <div className="w-14 h-14 rounded-full bg-accent/90 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg shadow-accent/30">
             <svg
               width="22"
               height="22"
@@ -48,7 +48,7 @@ export default function GameCard({ game, index = 0 }: GameCardProps) {
 
       {/* Info */}
       <div className="p-3.5">
-        <h3 className="text-sm font-semibold text-white truncate group-hover:text-orange transition-colors duration-200">
+        <h3 className="text-sm font-semibold text-white truncate group-hover:text-accent transition-colors duration-200">
           {game.title}
         </h3>
         <p className="text-xs text-muted mt-1 line-clamp-1">

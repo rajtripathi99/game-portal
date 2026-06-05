@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#0d0d0d]">
+    <footer className="border-t border-white/5 bg-[#0f1724]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 group mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange to-[#e85d00] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-[#0ea5e9] flex items-center justify-center">
                 <svg
                   width="16"
                   height="16"
@@ -22,7 +22,7 @@ export default function Footer() {
               </div>
               <span className="text-lg font-extrabold">
                 <span className="text-gradient">Game</span>
-                <span className="text-white">Hub</span>
+                <span className="text-white">Portal</span>
               </span>
             </Link>
             <p className="text-sm text-secondary-text leading-relaxed">
@@ -50,7 +50,7 @@ export default function Footer() {
                 <Link
                   key={cat}
                   href={`/search?category=${cat}`}
-                  className="text-sm text-secondary-text hover:text-orange transition-colors duration-200"
+                  className="text-sm text-secondary-text hover:text-accent transition-colors duration-200"
                 >
                   {cat}
                 </Link>
@@ -64,7 +64,7 @@ export default function Footer() {
               About
             </h3>
             <p className="text-sm text-secondary-text leading-relaxed">
-              GameHub is a free-to-play gaming platform featuring the best HTML5
+              GamePortal is a free-to-play gaming platform featuring the best HTML5
               games. All games run directly in your browser.
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted">
-            &copy; {new Date().getFullYear()} GameHub. All rights reserved.
+            &copy; {new Date().getFullYear()} GamePortal. All rights reserved.
           </p>
           <p className="text-xs text-muted">
             Powered by GameMonetize
