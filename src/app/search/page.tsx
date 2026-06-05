@@ -79,28 +79,81 @@ function SearchContent() {
     }
   }, [categoryParam, query]);
 
-  // Client-side filtering: category + text search
-  const filteredGames = allGames.filter((g) => {
-    // Category filter
-    const passesCategory =
+  // Client-side filtering: category + text search with relevance scoring
+  const filteredGames = (() => {
+    // Category filter first
+    const categoryFiltered =
       !activeCategory || activeCategory === "All"
-        ? true
-        : g.category.toLowerCase() === activeCategory.toLowerCase();
+        ? allGames
+        : allGames.filter(
+            (g) => g.category.toLowerCase() === activeCategory.toLowerCase()
+          );
 
-    // Text search filter (when query doesn't match a category, also filter by text)
+    // If query matches a category name, just return category-filtered results
     const matchedCategory = CATEGORIES.find(
       (cat) => cat.toLowerCase() === query.toLowerCase()
     );
-    const passesSearch =
-      !query || matchedCategory
-        ? true
-        : g.title.toLowerCase().includes(query.toLowerCase()) ||
-          g.description.toLowerCase().includes(query.toLowerCase()) ||
-          g.tags.toLowerCase().includes(query.toLowerCase()) ||
-          g.category.toLowerCase().includes(query.toLowerCase());
+    if (!query || matchedCategory) return categoryFiltered;
 
-    return passesCategory && passesSearch;
-  });
+    // Split query into individual words
+    const searchWords = query
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w) => w.length > 1);
+
+    if (searchWords.length === 0) return categoryFiltered;
+
+    // Score and filter games
+    const scored = categoryFiltered
+      .map((g) => {
+        const title = g.title.toLowerCase();
+        const tags = g.tags.toLowerCase();
+        const category = g.category.toLowerCase();
+        const description = g.description.toLowerCase();
+
+        let score = 0;
+        let matchedWords = 0;
+
+        for (const word of searchWords) {
+          let wordMatched = false;
+
+          // Title matches get highest priority
+          if (title.includes(word)) {
+            score += 10;
+            wordMatched = true;
+          }
+          // Tag matches are strong signals
+          if (tags.includes(word)) {
+            score += 5;
+            wordMatched = true;
+          }
+          // Category match
+          if (category.includes(word)) {
+            score += 4;
+            wordMatched = true;
+          }
+          // Description match (weakest)
+          if (description.includes(word)) {
+            score += 1;
+            wordMatched = true;
+          }
+
+          if (wordMatched) matchedWords++;
+        }
+
+        // Bonus for matching ALL search words (reward multi-word precision)
+        if (matchedWords === searchWords.length && searchWords.length > 1) {
+          score += 20;
+        }
+
+        return { game: g, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((item) => item.game);
+
+    return scored;
+  })();
 
   const loadMore = () => {
     const nextPage = page + 1;
