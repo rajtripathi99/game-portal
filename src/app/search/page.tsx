@@ -65,17 +65,42 @@ function SearchContent() {
     fetchGames(1);
   }, [fetchGames]);
 
+  // Auto-detect if search query matches a category name
   useEffect(() => {
-    setActiveCategory(categoryParam || "All");
-  }, [categoryParam]);
+    if (categoryParam) {
+      setActiveCategory(categoryParam);
+    } else if (query) {
+      const matchedCategory = CATEGORIES.find(
+        (cat) => cat.toLowerCase() === query.toLowerCase()
+      );
+      setActiveCategory(matchedCategory || "All");
+    } else {
+      setActiveCategory("All");
+    }
+  }, [categoryParam, query]);
 
-  // Client-side category filtering
-  const filteredGames =
-    activeCategory && activeCategory !== "All"
-      ? allGames.filter(
-          (g) => g.category.toLowerCase() === activeCategory.toLowerCase()
-        )
-      : allGames;
+  // Client-side filtering: category + text search
+  const filteredGames = allGames.filter((g) => {
+    // Category filter
+    const passesCategory =
+      !activeCategory || activeCategory === "All"
+        ? true
+        : g.category.toLowerCase() === activeCategory.toLowerCase();
+
+    // Text search filter (when query doesn't match a category, also filter by text)
+    const matchedCategory = CATEGORIES.find(
+      (cat) => cat.toLowerCase() === query.toLowerCase()
+    );
+    const passesSearch =
+      !query || matchedCategory
+        ? true
+        : g.title.toLowerCase().includes(query.toLowerCase()) ||
+          g.description.toLowerCase().includes(query.toLowerCase()) ||
+          g.tags.toLowerCase().includes(query.toLowerCase()) ||
+          g.category.toLowerCase().includes(query.toLowerCase());
+
+    return passesCategory && passesSearch;
+  });
 
   const loadMore = () => {
     const nextPage = page + 1;
