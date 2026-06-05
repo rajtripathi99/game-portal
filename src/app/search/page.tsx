@@ -19,8 +19,6 @@ const CATEGORIES = [
   "Hypercasual",
   "Multiplayer",
   "Stickman",
-  "Dress Up",
-  "Football",
   "Cooking",
 ];
 
@@ -29,7 +27,7 @@ function SearchContent() {
   const query = searchParams.get("q") || "";
   const categoryParam = searchParams.get("category") || "";
 
-  const [games, setGames] = useState<Game[]>([]);
+  const [allGames, setAllGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -46,14 +44,11 @@ function SearchContent() {
         const params = new URLSearchParams();
         params.set("page", String(pageNum));
         if (query) params.set("q", query);
-        if (activeCategory && activeCategory !== "All") {
-          params.set("category", activeCategory);
-        }
 
         const res = await fetch(`/api/games?${params.toString()}`);
         const data = await res.json();
         if (Array.isArray(data)) {
-          setGames((prev) => (append ? [...prev, ...data] : data));
+          setAllGames((prev) => (append ? [...prev, ...data] : data));
         }
       } catch (err) {
         console.error("Failed to search games:", err);
@@ -62,7 +57,7 @@ function SearchContent() {
         setLoadingMore(false);
       }
     },
-    [query, activeCategory]
+    [query]
   );
 
   useEffect(() => {
@@ -71,10 +66,16 @@ function SearchContent() {
   }, [fetchGames]);
 
   useEffect(() => {
-    if (categoryParam) {
-      setActiveCategory(categoryParam);
-    }
+    setActiveCategory(categoryParam || "All");
   }, [categoryParam]);
+
+  // Client-side category filtering
+  const filteredGames =
+    activeCategory && activeCategory !== "All"
+      ? allGames.filter(
+          (g) => g.category.toLowerCase() === activeCategory.toLowerCase()
+        )
+      : allGames;
 
   const loadMore = () => {
     const nextPage = page + 1;
@@ -134,11 +135,24 @@ function SearchContent() {
           </div>
         </div>
 
+        {/* Loading Overlay */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-24">
+            <div className="relative w-14 h-14 mb-4">
+              <div className="absolute inset-0 rounded-full border-3 border-white/5" />
+              <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-orange animate-spin" />
+            </div>
+            <p className="text-secondary-text text-sm font-medium animate-pulse">
+              Loading games...
+            </p>
+          </div>
+        )}
+
         {/* Results */}
-        <GameGrid games={games} loading={loading} />
+        {!loading && <GameGrid games={filteredGames} loading={false} />}
 
         {/* Load More */}
-        {!loading && games.length > 0 && (
+        {!loading && allGames.length > 0 && (
           <div className="mt-10 text-center">
             <button
               onClick={loadMore}
